@@ -347,25 +347,3 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
   }
 ];
 
-export const YOUTH_TEAMS = OFFICIAL_YOUTH_TEAMS;
-
-export function getSuggestedTeam(birthYear: number): YouthTeamDetail | null {
-  if (!birthYear || isNaN(birthYear)) return null;
-
-  const standardTeams = OFFICIAL_YOUTH_TEAMS.filter(t => t.category !== 'Mädchen');
-  for (const team of standardTeams) {
-    if (birthYear >= team.minYear && birthYear <= team.maxYear) {
-      return team;
-    }
-  }
-
-  if (birthYear >= 2021) {
-    return OFFICIAL_YOUTH_TEAMS.find(t => t.id === 'g2-jugend') || null;
-  }
-
-  if (birthYear <= 2011) {
-    return OFFICIAL_YOUTH_TEAMS.find(t => t.id === 'b-jugend') || null;
-  }
-
-  return null;
-}

@@ -1,8 +1,0 @@
-{
-  "name": "DJK Spvgg Herten – Probetraining Jugendfußball",
-  "description": "Offizielle Probetraining-Anmeldung für den Jugendfußball der DJK Spvgg Herten 1907 e.V. an der Kampfbahn Katzenbusch. Melde dein Kind jetzt für ein unverbindliches Probetraining an.",
-  "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
-}

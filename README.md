@@ -26,4 +26,3 @@ npm run build      # Ergebnis liegt in dist/
 - `src/components/DigitalContactDirectory.tsx` – Suche, Filter, Karten-/Tabellenansicht
 - `src/components/TeamCard.tsx` – einzelne Teamkarte
 
-Nicht eingebundene Alt-Komponenten aus AI Studio (`Hero`, `TeamOverview`, `LocationKatzenbusch`, `FaqSection`, `Navbar`, `Footer`, `ClubFeatures`) liegen noch in `src/components/`.

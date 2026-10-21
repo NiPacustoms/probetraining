@@ -35,7 +35,7 @@ export const LocationKatzenbusch: React.FC = () => {
               </div>
               <p className="text-base font-semibold text-neutral-800 pl-9">
                 Kampfbahn Katzenbusch<br />
-                Herner Straße 67<br />
+                Katzenbuschstraße 1–3<br />
                 45699 Herten
               </p>
             </div>
@@ -46,7 +46,7 @@ export const LocationKatzenbusch: React.FC = () => {
                 <div>
                   <h4 className="font-bold text-xs text-neutral-900">Parken</h4>
                   <p className="text-xs text-neutral-600 mt-0.5">
-                    Kostenlose Parkplätze befinden sich direkt am Vereinsgelände an der Herner Straße.
+                    Kostenlose Parkplätze befinden sich direkt am Vereinsgelände an der Katzenbuschstraße.
                   </p>
                 </div>
               </div>
@@ -77,7 +77,7 @@ export const LocationKatzenbusch: React.FC = () => {
 
             <div className="pt-2">
               <a
-                href="https://maps.google.com/?q=Kampfbahn+Katzenbusch+Herner+Str+67+45699+Herten"
+                href="https://maps.google.com/?q=Kampfbahn+Katzenbusch+Katzenbuschstra%C3%9Fe+1-3+45699+Herten"
                 target="_blank"
                 rel="noreferrer noopener"
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white font-semibold text-xs rounded-lg transition-colors w-full sm:w-auto"
@@ -105,7 +105,7 @@ export const LocationKatzenbusch: React.FC = () => {
                 <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
                   Geländeübersicht
                 </span>
-                <span className="text-xs text-neutral-400">Herner Str. 67</span>
+                <span className="text-xs text-neutral-400">Katzenbuschstraße 1–3</span>
               </div>
 
               <h3 className="text-2xl font-bold font-display text-white mb-2">
@@ -120,7 +120,7 @@ export const LocationKatzenbusch: React.FC = () => {
             <div className="relative z-10 bg-neutral-950/70 rounded-xl p-5 border border-neutral-800 space-y-4">
               <div className="flex items-center justify-between text-xs border-b border-neutral-800 pb-2">
                 <span className="text-neutral-400 font-medium">1. Ankunft &amp; Parken</span>
-                <span className="text-neutral-200">Haupteingang Herner Str.</span>
+                <span className="text-neutral-200">Haupteingang Katzenbuschstraße</span>
               </div>
               <div className="flex items-center justify-between text-xs border-b border-neutral-800 pb-2">
                 <span className="text-neutral-400 font-medium">2. Umkleiden &amp; Sanitär</span>

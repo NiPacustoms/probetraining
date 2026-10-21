@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'motion/react';
 import { DigitalContactDirectory } from './components/DigitalContactDirectory';
 import { CopyableEmail } from './components/CopyableEmail';
+import jugendLogo from './assets/djk_jugend_logo_sm.webp';
 import { MapPin, Globe, Instagram, ArrowUp } from 'lucide-react';
 
 export default function App() {
@@ -44,16 +45,13 @@ export default function App() {
           
           {/* Club Identity */}
           <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white p-0.5 border border-neutral-200 shadow-sm shrink-0 flex items-center justify-center overflow-hidden hover:scale-105 transition-transform">
-              <img
-                src="/src/assets/club_crest.png"
-                alt="Wappen DJK Spvgg Herten 1907 e.V."
-                className="w-full h-full object-contain"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
-            </div>
+            <img
+              src={jugendLogo}
+              alt="Logo DJK Spvgg Herten 1907 Jugend"
+              width={56}
+              height={56}
+              className="w-11 h-11 sm:w-14 sm:h-14 object-contain shrink-0 drop-shadow-sm hover:scale-105 transition-transform"
+            />
             <div className="min-w-0">
               <div className="font-extrabold text-sm sm:text-xl tracking-tight text-neutral-950 font-display">
                 DJK Spvgg Herten 1907 e.V.
@@ -147,7 +145,7 @@ export default function App() {
             exit={{ opacity: 0, scale: 0.8, y: 15 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
             onClick={scrollToTop}
-            className="fixed bottom-5 right-4 sm:bottom-6 sm:left-6 z-40 p-3 sm:px-3.5 sm:py-2.5 rounded-full bg-emerald-950/90 hover:bg-emerald-900 active:bg-emerald-950 text-white shadow-2xl border border-emerald-600/60 backdrop-blur-md transition-all cursor-pointer flex items-center gap-2 group hover:shadow-emerald-900/30 hover:scale-105 active:scale-95 touch-manipulation"
+            className="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 p-3 sm:px-3.5 sm:py-2.5 rounded-full bg-emerald-950/90 hover:bg-emerald-900 active:bg-emerald-950 text-white shadow-2xl border border-emerald-600/60 backdrop-blur-md transition-all cursor-pointer flex items-center gap-2 group hover:shadow-emerald-900/30 hover:scale-105 active:scale-95 touch-manipulation"
             title="Nach ganz oben scrollen"
           >
             <ArrowUp className="w-4 h-4 text-emerald-400 group-hover:-translate-y-0.5 transition-transform" />

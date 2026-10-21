@@ -81,7 +81,7 @@ export const FaqSection: React.FC = () => {
                 </button>
 
                 {isOpen && (
-                  <div className="px-4 sm:px-5 pb-5 text-xs sm:text-sm text-neutral-600 leading-relaxed border-t border-neutral-150 animate-in fade-in duration-150">
+                  <div className="px-4 sm:px-5 pb-5 text-xs sm:text-sm text-neutral-600 leading-relaxed border-t border-neutral-200 animate-in fade-in duration-150">
                     <p className="pt-3">{item.answer}</p>
                   </div>
                 )}

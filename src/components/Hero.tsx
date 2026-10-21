@@ -170,7 +170,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToForm }) => {
 
               {/* Lower Info Bar */}
               <div className="p-4 bg-neutral-900 border-t border-neutral-800 flex items-center justify-between text-xs text-neutral-300">
-                <span className="font-medium">Herner Str. 67, 45699 Herten</span>
+                <span className="font-medium">Katzenbuschstraße 1–3, 45699 Herten</span>
                 <span className="text-emerald-400 font-semibold">DJK Herten Jugend</span>
               </div>
             </div>

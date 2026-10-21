@@ -6,7 +6,6 @@ import {
   Clock, 
   Calendar, 
   Phone, 
-  MessageCircle, 
   Copy, 
   Check, 
   Star, 
@@ -21,7 +20,6 @@ interface TeamCardProps {
   isFavorite: boolean;
   onToggleFavorite: (teamId: string, e: React.MouseEvent) => void;
   onCopyPhone: (coachName: string, phone: string, e: React.MouseEvent) => void;
-  onSelectForProbetraining: (teamName: string) => void;
   copiedPhone: string | null;
 }
 
@@ -34,23 +32,12 @@ function getInitials(name: string): string {
   return parts[0].slice(0, 2).toUpperCase();
 }
 
-// Format WhatsApp link for German phone numbers
-function getWhatsAppUrl(phone: string, teamName: string): string {
-  const cleaned = phone.replace(/[\s\-\/]/g, '');
-  const intlNumber = cleaned.startsWith('0') ? '49' + cleaned.slice(1) : cleaned;
-  const message = encodeURIComponent(
-    `Hallo, ich interessiere mich für ein Probetraining für die ${teamName} bei der DJK Spvgg Herten 1907 e.V. an der Kampfbahn Katzenbusch.`
-  );
-  return `https://wa.me/${intlNumber}?text=${message}`;
-}
-
 export const TeamCard: React.FC<TeamCardProps> = ({
   team,
   index,
   isFavorite,
   onToggleFavorite,
   onCopyPhone,
-  onSelectForProbetraining,
   copiedPhone
 }) => {
   return (
@@ -152,10 +139,10 @@ export const TeamCard: React.FC<TeamCardProps> = ({
             {team.coaches.map((coach, cIdx) => (
               <div
                 key={cIdx}
-                className="p-3 rounded-xl bg-neutral-50 hover:bg-neutral-100/90 border border-neutral-200 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                className="p-3 rounded-xl bg-neutral-50 hover:bg-neutral-100/90 border border-neutral-200 transition-colors flex flex-wrap items-center justify-between gap-x-3 gap-y-2 text-xs"
               >
                 {/* Coach Name & Avatar with Initials */}
-                <div className="flex items-center gap-2.5 min-w-0">
+                <div className="flex items-center gap-2.5 min-w-[7rem] flex-1">
                   <div 
                     className="w-8 h-8 rounded-full bg-[#0B6E3B]/15 text-[#0B6E3B] border border-[#0B6E3B]/30 flex items-center justify-center font-black text-xs shrink-0 select-none"
                     aria-hidden="true"
@@ -176,7 +163,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
 
                 {/* Contact Action Buttons (min 44px touch targets) */}
                 {coach.phone ? (
-                  <div className="flex items-center gap-1.5 self-start sm:self-auto shrink-0">
+                  <div className="flex items-center gap-1.5 shrink-0">
                     
                     {/* Anrufen Button (min 44px height) */}
                     <a
@@ -187,18 +174,6 @@ export const TeamCard: React.FC<TeamCardProps> = ({
                     >
                       <Phone className="w-3.5 h-3.5" />
                       <span className="tabular-nums">{coach.phone}</span>
-                    </a>
-
-                    {/* WhatsApp Button (min 44px touch target) */}
-                    <a
-                      href={getWhatsAppUrl(coach.phone, team.name)}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="min-h-[44px] min-w-[44px] bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-xl flex items-center justify-center transition-all shadow-xs active:scale-95 touch-manipulation"
-                      title={`WhatsApp an ${coach.name} senden`}
-                      aria-label={`WhatsApp an ${coach.name} senden`}
-                    >
-                      <MessageCircle className="w-4 h-4 fill-white" />
                     </a>
 
                     {/* Copy Button (min 44px touch target) */}
@@ -229,17 +204,6 @@ export const TeamCard: React.FC<TeamCardProps> = ({
 
       </div>
 
-      {/* Card Action Footer: Quick "Probetraining anfragen" */}
-      <div className="p-3.5 bg-neutral-50 border-t border-neutral-100 flex items-center justify-between gap-2">
-        <button
-          type="button"
-          onClick={() => onSelectForProbetraining(team.name)}
-          className="w-full py-2.5 px-3 bg-white hover:bg-[#C8102E] text-[#C8102E] hover:text-white border border-[#C8102E]/40 hover:border-[#C8102E] font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-xs cursor-pointer group/btn"
-        >
-          <span>Probetraining für {team.shortName} anfragen</span>
-          <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
-        </button>
-      </div>
 
     </motion.div>
   );

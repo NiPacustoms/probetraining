@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, MapPin, Car, Bus, Navigation, Shield, Check } from 'lucide-react';
+import torPhotoSm from '../assets/katzenbusch_tor_sm.webp';
 
 interface KatzenbuschModalProps {
   isOpen: boolean;
@@ -49,14 +50,21 @@ export const KatzenbuschModal: React.FC<KatzenbuschModalProps> = ({ isOpen, onCl
           role="dialog"
           aria-modal="true"
         >
-          {/* Header */}
-          <div className="bg-gradient-to-r from-emerald-950 via-emerald-900 to-neutral-900 text-white p-5 sm:p-6 border-b-4 border-red-600 relative shrink-0">
+          {/* Header mit Foto vom Eingangstor */}
+          <div className="bg-[#06190f] text-white p-5 sm:p-6 pt-32 sm:pt-40 border-b-4 border-red-600 relative isolate shrink-0 overflow-hidden">
+            <img
+              src={torPhotoSm}
+              alt="Eingangstor Sportplatz Katzenbusch"
+              className="absolute inset-0 -z-10 w-full h-full object-cover object-[center_55%]"
+            />
+            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-[#06190f] via-[#06190f]/75 to-[#06190f]/0" />
+            <div>
             {/* Mobile Sheet Handle */}
-            <div className="sm:hidden w-10 h-1 bg-white/30 rounded-full mx-auto mb-3" />
+            <div aria-hidden="true" className="sm:hidden absolute top-2.5 left-1/2 -translate-x-1/2 w-10 h-1 bg-white/70 rounded-full" />
             <button
               type="button"
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 text-neutral-400 hover:text-white bg-white/10 hover:bg-white/20 rounded-xl transition-colors cursor-pointer"
+              className="absolute top-4 right-4 p-2 text-white bg-[#06190f]/60 hover:bg-[#06190f]/80 backdrop-blur rounded-xl transition-colors cursor-pointer"
               aria-label="Modal schließen"
             >
               <X className="w-5 h-5" />
@@ -74,6 +82,7 @@ export const KatzenbuschModal: React.FC<KatzenbuschModalProps> = ({ isOpen, onCl
             <p className="text-xs text-neutral-300 mt-1">
               Die traditionsreiche Heimspielstätte der DJK Spvgg Herten 1907 e.V.
             </p>
+            </div>
           </div>
 
           {/* Body: Scrollable on Mobile */}
@@ -93,7 +102,7 @@ export const KatzenbuschModal: React.FC<KatzenbuschModalProps> = ({ isOpen, onCl
 
             {/* Travel Directions */}
             <div className="space-y-3">
-              <div className="flex items-start gap-3 bg-neutral-50 p-3 rounded-xl border border-neutral-150">
+              <div className="flex items-start gap-3 bg-neutral-50 p-3 rounded-xl border border-neutral-200">
                 <Car className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
                 <div>
                   <h4 className="font-bold text-neutral-900">Anreise mit dem PKW &amp; Parken</h4>
@@ -103,7 +112,7 @@ export const KatzenbuschModal: React.FC<KatzenbuschModalProps> = ({ isOpen, onCl
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 bg-neutral-50 p-3 rounded-xl border border-neutral-150">
+              <div className="flex items-start gap-3 bg-neutral-50 p-3 rounded-xl border border-neutral-200">
                 <Bus className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
                 <div>
                   <h4 className="font-bold text-neutral-900">Öffentlicher Nahverkehr</h4>

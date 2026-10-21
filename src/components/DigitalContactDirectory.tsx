@@ -5,6 +5,9 @@ import { TeamCard } from './TeamCard';
 import { KatzenbuschModal } from './KatzenbuschModal';
 import { ToastNotification } from './ToastNotification';
 import { CopyableEmail } from './CopyableEmail';
+import torPhoto from '../assets/katzenbusch_tor.webp';
+import torPhotoSm from '../assets/katzenbusch_tor_sm.webp';
+import jugendLogoLg from '../assets/djk_jugend_logo.webp';
 import { 
   Search, 
   Phone, 
@@ -133,13 +136,42 @@ export const DigitalContactDirectory: React.FC = () => {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="relative bg-gradient-to-r from-emerald-950 via-emerald-900 to-neutral-900 text-white rounded-2xl p-5 sm:p-6 border border-white/10 shadow-lg overflow-hidden"
+        className="relative bg-[#06190f] text-white rounded-2xl border border-white/10 shadow-lg overflow-hidden"
       >
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          
-          {/* Main Title & Editorial Kicker */}
+        {/* Foto: Eingangstor Sportplatz Katzenbusch */}
+        <picture>
+          <source media="(max-width: 767px)" srcSet={torPhotoSm} />
+          <img
+            src={torPhoto}
+            alt="Eingangstor Sportplatz Katzenbusch in Herten"
+            className="absolute inset-0 w-full h-full object-cover object-[70%_center] md:object-[center_60%]"
+          />
+        </picture>
+        {/* Overlay: unten (mobil) bzw. links (Desktop) dunkel, damit Text lesbar bleibt */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-t from-[#06190f] via-[#06190f]/90 to-[#06190f]/0 md:bg-gradient-to-r md:from-[#06190f] md:via-[#06190f]/88 md:via-45% md:to-[#06190f]/0"
+        />
+        {/* Vereinsstreifen Rot – Grün – Weiß */}
+        <div aria-hidden="true" className="absolute bottom-0 inset-x-0 h-1.5 flex">
+          <div className="flex-1 bg-[#C8102E]" />
+          <div className="flex-1 bg-[#0B6E3B]" />
+          <div className="flex-1 bg-white" />
+        </div>
+
+        <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-5 p-5 pt-40 sm:p-8 sm:pt-52 md:pt-10 md:pb-10 md:min-h-[300px]">
+
+          {/* Logo, Titel & Kicker */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 md:max-w-[58%]">
+          <img
+            src={jugendLogoLg}
+            alt="Logo DJK Spvgg Herten 1907 Jugend"
+            width={140}
+            height={140}
+            className="w-24 h-24 sm:w-32 sm:h-32 object-contain shrink-0 drop-shadow-[0_8px_24px_rgba(0,0,0,0.45)]"
+          />
           <div className="space-y-1.5">
-            <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-emerald-300">
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-bold uppercase tracking-wider text-emerald-300">
               <span className="bg-emerald-800/80 text-emerald-100 px-2 py-0.5 rounded border border-emerald-600/40">
                 Saison 26 / 27
               </span>
@@ -149,13 +181,14 @@ export const DigitalContactDirectory: React.FC = () => {
               <span className="text-red-400">Jugend</span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold font-display tracking-tight text-white">
+            <h1 className="text-4xl sm:text-5xl font-extrabold font-display tracking-tight text-white leading-none pt-1">
               Komm in unser Team!
             </h1>
 
-            <p className="text-neutral-300 text-xs sm:text-sm max-w-xl leading-relaxed">
+            <p className="text-neutral-200 text-xs sm:text-sm max-w-xl leading-relaxed">
               Trainer- und Kontaktübersicht aller 16 Jugendmannschaften. Wähle unten deinen Jahrgang oder kontaktiere die Trainer direkt.
             </p>
+          </div>
           </div>
 
           {/* Compact Stadium Location Pill Button */}
@@ -164,7 +197,7 @@ export const DigitalContactDirectory: React.FC = () => {
             whileTap={{ scale: 0.98 }}
             type="button"
             onClick={() => setIsMapOpen(true)}
-            className="w-full md:w-auto inline-flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 active:bg-white/20 border border-white/15 text-xs text-white transition-all cursor-pointer shadow-sm shrink-0 group active:scale-98 touch-manipulation"
+            className="w-full md:w-auto inline-flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-[#06190f]/70 hover:bg-[#06190f]/85 backdrop-blur-md border border-white/20 text-xs text-white transition-all cursor-pointer shadow-sm shrink-0 group active:scale-98 touch-manipulation"
             title="Kampfbahn Katzenbusch Details & Route öffnen"
           >
             <div className="flex items-center gap-2.5">
@@ -257,7 +290,7 @@ export const DigitalContactDirectory: React.FC = () => {
         </div>
 
         {/* Row 2: Instant Birth Year Scrubber Strip (Touch Momentum) */}
-        <div className="pt-1 border-t border-neutral-150">
+        <div className="pt-1 border-t border-neutral-200">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-500">
               Schnellwahl nach Geburtsjahr:
@@ -306,7 +339,7 @@ export const DigitalContactDirectory: React.FC = () => {
         </div>
 
         {/* Row 3: Animated Category Tabs (Touch Momentum) */}
-        <div className="pt-2 border-t border-neutral-150 flex items-center gap-1.5 overflow-x-auto pb-1.5 scrollbar-none text-xs font-semibold relative touch-pan-x overscroll-x-contain -mx-1 px-1">
+        <div className="pt-2 border-t border-neutral-200 flex items-center gap-1.5 overflow-x-auto pb-1.5 scrollbar-none text-xs font-semibold relative touch-pan-x overscroll-x-contain -mx-1 px-1">
           {categories.map((cat) => {
             const isActive = selectedCategory === cat;
             return (

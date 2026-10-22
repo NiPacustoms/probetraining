@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { YouthTeamDetail } from '../data/youthTeams';
+import { YouthTeamDetail, PLACE_LABEL, PLAN_LABEL } from '../data/youthTeams';
 import { ClubStripe } from './ClubStripe';
-import { Clock, Calendar, Phone, Copy, Check, Star, MapPin } from 'lucide-react';
+import { Calendar, Phone, Copy, Check, Star, MapPin } from 'lucide-react';
 
 interface TeamCardProps {
   team: YouthTeamDetail;
@@ -84,25 +84,46 @@ export const TeamCard: React.FC<TeamCardProps> = ({
       </header>
       <ClubStripe height="h-1" />
 
-      {/* Training */}
-      <dl className="grid grid-cols-2 border-b border-neutral-100">
-        <div className="px-5 py-3.5 border-r border-neutral-100">
-          <dt className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.1em] text-neutral-500">
+      {/* Training: Winterplan */}
+      <div className="px-5 pt-4 pb-4 border-b border-neutral-100">
+        <div className="flex items-center justify-between gap-2">
+          <h4 className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.1em] text-neutral-500">
             <Calendar className="w-3.5 h-3.5 text-[#0B6E3B]" />
             Training
-          </dt>
-          <dd className="mt-1 text-sm font-bold text-[#0A1F14]">{team.trainingDays}</dd>
+          </h4>
+          <span className="text-[10px] font-semibold text-neutral-400">{PLAN_LABEL}</span>
         </div>
-        <div className="px-5 py-3.5">
-          <dt className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.1em] text-neutral-500">
-            <Clock className="w-3.5 h-3.5 text-[#0B6E3B]" />
-            Uhrzeit
-          </dt>
-          <dd className="mt-1 text-sm font-bold text-[#0A1F14] tabular-nums">
-            {team.trainingTime ? team.trainingTime.replace(' Uhr', '') : '–'}
-          </dd>
-        </div>
-      </dl>
+        <ul className="mt-2.5 flex flex-col gap-1.5">
+          {team.sessions.map((s, i) => {
+            const indoor = s.place !== 'kunstrasen';
+            return (
+              <li key={i} className="flex items-center gap-3 text-sm">
+                <span className="w-8 shrink-0 font-bold text-[#0A1F14]">{s.day}</span>
+                <span className="flex-1 font-semibold text-[#0A1F14] tabular-nums">
+                  {s.start} – {s.end}
+                </span>
+                <span
+                  className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+                    indoor
+                      ? s.place === 'augustahalle'
+                        ? 'bg-orange-100 text-orange-800'
+                        : 'bg-[#8e3a68]/10 text-[#8e3a68]'
+                      : 'bg-[#0B6E3B]/10 text-[#0B6E3B]'
+                  }`}
+                >
+                  {PLACE_LABEL[s.place]}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+        {team.fallback.length > 0 && (
+          <p className="mt-3 text-[11px] leading-snug text-neutral-500">
+            <span className="font-semibold text-neutral-600">Bei Hallensperrung oder in den Ferien: </span>
+            {team.fallback.map((s) => `${s.day} ${s.start}–${s.end}`).join(', ')} auf dem Kunstrasen
+          </p>
+        )}
+      </div>
 
       {/* Trainerteam */}
       <div className="flex-1 flex flex-col px-5 pt-4 pb-5 gap-3">
@@ -171,7 +192,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
 
         <div className="mt-auto pt-2 flex items-center gap-1.5 text-[11px] text-neutral-500">
           <MapPin className="w-3.5 h-3.5 text-[#C8102E] shrink-0" />
-          Kampfbahn Katzenbusch · Kunstrasen
+          Kampfbahn Katzenbusch, Katzenbuschstraße 1–3
         </div>
       </div>
     </motion.article>

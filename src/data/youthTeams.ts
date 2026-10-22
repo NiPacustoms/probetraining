@@ -4,6 +4,28 @@ export interface CoachContact {
   role?: string;
 }
 
+export type TrainingPlace = 'kunstrasen' | 'feigehalle' | 'augustahalle';
+export type Weekday = 'Mo' | 'Di' | 'Mi' | 'Do' | 'Fr';
+
+export interface TrainingSession {
+  day: Weekday;
+  start: string;
+  end: string;
+  place: TrainingPlace;
+}
+
+export const PLACE_LABEL: Record<TrainingPlace, string> = {
+  kunstrasen: 'Kunstrasen',
+  feigehalle: 'FeigeHalle',
+  augustahalle: 'AugustaHalle',
+};
+
+export const PLAN_LABEL = 'Winterplan ab 01.10.26';
+
+export function formatSession(s: TrainingSession): string {
+  return `${s.day} ${s.start}–${s.end} (${PLACE_LABEL[s.place]})`;
+}
+
 export interface YouthTeamDetail {
   id: string;
   category: 'G-Jugend' | 'F-Jugend' | 'E-Jugend' | 'D-Jugend' | 'C-Jugend' | 'B-Jugend' | 'Mädchen';
@@ -13,8 +35,10 @@ export interface YouthTeamDetail {
   birthYears: string;
   minYear: number;
   maxYear: number;
-  trainingDays: string;
-  trainingTime?: string;
+  /** Winterplan 26/27 (ab 01.10.26) */
+  sessions: TrainingSession[];
+  /** Ausweichzeiten bei Hallensperrung oder in den Ferien */
+  fallback: TrainingSession[];
   fieldFormat: string;
   ballSize: string;
   coaches: CoachContact[];
@@ -32,8 +56,14 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2021 & jünger',
     minYear: 2021,
     maxYear: 2024,
-    trainingDays: 'Mi. & Fr.',
-    trainingTime: '16:30 – 17:45 Uhr',
+    sessions: [
+      { day: 'Mi', start: '16:00', end: '17:00', place: 'feigehalle' },
+      { day: 'Fr', start: '16:00', end: '17:00', place: 'feigehalle' }
+    ],
+    fallback: [
+      { day: 'Mi', start: '17:00', end: '18:15', place: 'kunstrasen' },
+      { day: 'Fr', start: '17:00', end: '18:15', place: 'kunstrasen' }
+    ],
     fieldFormat: 'Kinderfußball / Funino 3 vs. 3',
     ballSize: 'Größe 3 (Leichtball 290g)',
     coaches: [
@@ -53,8 +83,14 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2020',
     minYear: 2020,
     maxYear: 2020,
-    trainingDays: 'Mi. & Fr.',
-    trainingTime: '16:30 – 17:45 Uhr',
+    sessions: [
+      { day: 'Mi', start: '16:00', end: '17:00', place: 'feigehalle' },
+      { day: 'Fr', start: '17:00', end: '18:00', place: 'feigehalle' }
+    ],
+    fallback: [
+      { day: 'Mi', start: '17:00', end: '18:15', place: 'kunstrasen' },
+      { day: 'Fr', start: '17:00', end: '18:15', place: 'kunstrasen' }
+    ],
     fieldFormat: 'Kinderfußball / 3 vs. 3 auf 4 Minitore',
     ballSize: 'Größe 3 (Leichtball 290g)',
     coaches: [
@@ -74,8 +110,13 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2019',
     minYear: 2019,
     maxYear: 2019,
-    trainingDays: 'Mo. & Mi.',
-    trainingTime: '17:00 – 18:30 Uhr',
+    sessions: [
+      { day: 'Mi', start: '17:00', end: '18:15', place: 'kunstrasen' },
+      { day: 'Fr', start: '17:00', end: '18:00', place: 'feigehalle' }
+    ],
+    fallback: [
+      { day: 'Mo', start: '17:00', end: '18:15', place: 'kunstrasen' }
+    ],
     fieldFormat: 'DFB-Kinderfußball / 4 vs. 4 & 5 vs. 5',
     ballSize: 'Größe 3 / 4 (290g)',
     coaches: [
@@ -93,8 +134,13 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2018',
     minYear: 2018,
     maxYear: 2018,
-    trainingDays: 'Mi. & Fr.',
-    trainingTime: '17:00 – 18:30 Uhr',
+    sessions: [
+      { day: 'Mi', start: '17:00', end: '18:15', place: 'kunstrasen' },
+      { day: 'Fr', start: '16:00', end: '17:00', place: 'feigehalle' }
+    ],
+    fallback: [
+      { day: 'Fr', start: '17:00', end: '18:15', place: 'kunstrasen' }
+    ],
     fieldFormat: 'DFB-Kinderfußball & Spielfeste',
     ballSize: 'Größe 4 (290g)',
     coaches: [
@@ -114,8 +160,13 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2018 – 2020',
     minYear: 2018,
     maxYear: 2020,
-    trainingDays: 'Di. & Fr.',
-    trainingTime: '17:00 – 18:30 Uhr',
+    sessions: [
+      { day: 'Di', start: '17:00', end: '18:15', place: 'kunstrasen' },
+      { day: 'Mi', start: '18:00', end: '19:00', place: 'feigehalle' }
+    ],
+    fallback: [
+      { day: 'Do', start: '17:00', end: '18:15', place: 'kunstrasen' }
+    ],
     fieldFormat: 'Kleinfeld 5 vs. 5 & Minitore',
     ballSize: 'Größe 3 / 4 (290g)',
     coaches: [
@@ -135,8 +186,13 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2017',
     minYear: 2017,
     maxYear: 2017,
-    trainingDays: 'Mo. & Do.',
-    trainingTime: '17:00 – 18:30 Uhr',
+    sessions: [
+      { day: 'Mo', start: '17:00', end: '18:15', place: 'kunstrasen' },
+      { day: 'Mi', start: '17:00', end: '18:00', place: 'feigehalle' }
+    ],
+    fallback: [
+      { day: 'Do', start: '17:00', end: '18:15', place: 'kunstrasen' }
+    ],
     fieldFormat: 'Kleinfeld 7 vs. 7',
     ballSize: 'Größe 4 (350g)',
     coaches: [
@@ -153,8 +209,13 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2017',
     minYear: 2017,
     maxYear: 2017,
-    trainingDays: 'Mo. & Do.',
-    trainingTime: '17:00 – 18:30 Uhr',
+    sessions: [
+      { day: 'Mo', start: '17:00', end: '18:15', place: 'kunstrasen' },
+      { day: 'Mi', start: '17:00', end: '18:00', place: 'feigehalle' }
+    ],
+    fallback: [
+      { day: 'Do', start: '17:00', end: '18:15', place: 'kunstrasen' }
+    ],
     fieldFormat: 'Kleinfeld 7 vs. 7',
     ballSize: 'Größe 4 (350g)',
     coaches: [
@@ -172,8 +233,13 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2016',
     minYear: 2016,
     maxYear: 2016,
-    trainingDays: 'Di. & Do.',
-    trainingTime: '17:15 – 18:45 Uhr',
+    sessions: [
+      { day: 'Mi', start: '19:00', end: '20:00', place: 'feigehalle' },
+      { day: 'Do', start: '17:00', end: '18:15', place: 'kunstrasen' }
+    ],
+    fallback: [
+      { day: 'Di', start: '17:00', end: '18:15', place: 'kunstrasen' }
+    ],
     fieldFormat: 'Kleinfeld 7 vs. 7',
     ballSize: 'Größe 4 (350g)',
     coaches: [
@@ -190,8 +256,11 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2016',
     minYear: 2016,
     maxYear: 2016,
-    trainingDays: 'Di. & Do.',
-    trainingTime: '17:15 – 18:45 Uhr',
+    sessions: [
+      { day: 'Di', start: '18:15', end: '19:30', place: 'kunstrasen' },
+      { day: 'Do', start: '18:15', end: '19:30', place: 'kunstrasen' }
+    ],
+    fallback: [],
     fieldFormat: 'Kleinfeld 7 vs. 7',
     ballSize: 'Größe 4 (350g)',
     coaches: [
@@ -211,8 +280,13 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2015 – 2017',
     minYear: 2015,
     maxYear: 2017,
-    trainingDays: 'Di. & Fr.',
-    trainingTime: '17:15 – 18:45 Uhr',
+    sessions: [
+      { day: 'Mi', start: '18:00', end: '19:00', place: 'feigehalle' },
+      { day: 'Fr', start: '18:00', end: '19:30', place: 'kunstrasen' }
+    ],
+    fallback: [
+      { day: 'Di', start: '17:00', end: '18:15', place: 'kunstrasen' }
+    ],
     fieldFormat: 'Kleinfeld 7 vs. 7',
     ballSize: 'Größe 4 (350g)',
     coaches: [
@@ -233,8 +307,11 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2015',
     minYear: 2015,
     maxYear: 2015,
-    trainingDays: 'Di. & Do.',
-    trainingTime: '17:30 – 19:00 Uhr',
+    sessions: [
+      { day: 'Di', start: '18:15', end: '19:30', place: 'kunstrasen' },
+      { day: 'Do', start: '18:15', end: '19:30', place: 'kunstrasen' }
+    ],
+    fallback: [],
     fieldFormat: 'Kompaktfeld 9 vs. 9',
     ballSize: 'Größe 4 (350g)',
     coaches: [
@@ -254,8 +331,11 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2014 / 2015',
     minYear: 2014,
     maxYear: 2015,
-    trainingDays: 'Di. & Fr.',
-    trainingTime: '17:30 – 19:00 Uhr',
+    sessions: [
+      { day: 'Di', start: '17:00', end: '18:15', place: 'kunstrasen' },
+      { day: 'Fr', start: '17:00', end: '18:15', place: 'kunstrasen' }
+    ],
+    fallback: [],
     fieldFormat: 'Kompaktfeld 9 vs. 9',
     ballSize: 'Größe 4 (350g)',
     coaches: [
@@ -275,8 +355,11 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2013 / 2014',
     minYear: 2013,
     maxYear: 2014,
-    trainingDays: 'Mo. & Mi.',
-    trainingTime: '17:45 – 19:15 Uhr',
+    sessions: [
+      { day: 'Mo', start: '18:15', end: '19:30', place: 'kunstrasen' },
+      { day: 'Mi', start: '18:00', end: '19:30', place: 'kunstrasen' }
+    ],
+    fallback: [],
     fieldFormat: 'Großfeld 11 vs. 11',
     ballSize: 'Größe 5 (Normalball)',
     coaches: [
@@ -294,8 +377,11 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2012 / 2013',
     minYear: 2012,
     maxYear: 2013,
-    trainingDays: 'Mo. & Do.',
-    trainingTime: '18:00 – 19:30 Uhr',
+    sessions: [
+      { day: 'Mo', start: '18:15', end: '19:30', place: 'kunstrasen' },
+      { day: 'Do', start: '18:15', end: '19:30', place: 'kunstrasen' }
+    ],
+    fallback: [],
     fieldFormat: 'Großfeld 11 vs. 11',
     ballSize: 'Größe 5 (Normalball)',
     coaches: [
@@ -315,8 +401,11 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2012 / 2013',
     minYear: 2012,
     maxYear: 2013,
-    trainingDays: 'Di. & Fr.',
-    trainingTime: '17:45 – 19:15 Uhr',
+    sessions: [
+      { day: 'Di', start: '18:15', end: '19:30', place: 'kunstrasen' },
+      { day: 'Fr', start: '18:00', end: '19:30', place: 'kunstrasen' }
+    ],
+    fallback: [],
     fieldFormat: 'Großfeld 11 vs. 11',
     ballSize: 'Größe 5 (Normalball)',
     coaches: [
@@ -336,8 +425,11 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     birthYears: '2010 / 2011',
     minYear: 2010,
     maxYear: 2011,
-    trainingDays: 'Mo. & Mi.',
-    trainingTime: '18:30 – 20:00 Uhr',
+    sessions: [
+      { day: 'Mo', start: '18:15', end: '19:30', place: 'kunstrasen' },
+      { day: 'Mi', start: '18:00', end: '19:30', place: 'kunstrasen' }
+    ],
+    fallback: [],
     fieldFormat: 'Großfeld 11 vs. 11',
     ballSize: 'Größe 5 (Normalball)',
     coaches: [

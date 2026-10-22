@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { OFFICIAL_YOUTH_TEAMS, YouthTeamDetail } from '../data/youthTeams';
+import { OFFICIAL_YOUTH_TEAMS, YouthTeamDetail, PLACE_LABEL, formatSession } from '../data/youthTeams';
 import { TeamCard } from './TeamCard';
 import { KatzenbuschModal } from './KatzenbuschModal';
 import { ToastNotification } from './ToastNotification';
@@ -108,7 +108,7 @@ export const DigitalContactDirectory: React.FC = () => {
       const yearMatch = team.birthYears.toLowerCase().includes(q) || 
                         String(team.minYear).includes(q) || 
                         String(team.maxYear).includes(q);
-      const dayMatch = team.trainingDays.toLowerCase().includes(q);
+      const dayMatch = team.sessions.some(se => formatSession(se).toLowerCase().includes(q));
       const coachMatch = team.coaches.some(c => 
         c.name.toLowerCase().includes(q) || 
         (c.phone && c.phone.replace(/[\s-]/g, '').includes(q.replace(/[\s-]/g, '')))
@@ -486,10 +486,15 @@ export const DigitalContactDirectory: React.FC = () => {
                       </td>
 
                       <td className="py-4 px-4">
-                        <div className="font-bold text-neutral-900">{team.trainingDays}</div>
-                        {team.trainingTime && (
-                          <div className="text-[11px] text-emerald-800 font-semibold">{team.trainingTime}</div>
-                        )}
+                        <div className="space-y-0.5">
+                          {team.sessions.map((se, i) => (
+                            <div key={i} className="whitespace-nowrap tabular-nums">
+                              <span className="font-bold text-neutral-900">{se.day}</span>{' '}
+                              <span className="text-neutral-800">{se.start}–{se.end}</span>{' '}
+                              <span className="text-[11px] text-emerald-800 font-semibold">{PLACE_LABEL[se.place]}</span>
+                            </div>
+                          ))}
+                        </div>
                       </td>
 
                       <td className="py-4 px-5" onClick={(e) => e.stopPropagation()}>

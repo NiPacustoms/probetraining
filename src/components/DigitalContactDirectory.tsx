@@ -221,19 +221,20 @@ export const DigitalContactDirectory: React.FC = () => {
           
           {/* Search Field */}
           <div className="relative flex-1">
-            <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5 pointer-events-none" />
+            <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Jahrgang (z.B. 2016), Team, Trainername oder Tag suchen..."
-              className="w-full pl-10 pr-10 py-3 text-xs sm:text-sm bg-neutral-50 rounded-xl border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 transition"
+              className="w-full h-11 pl-10 pr-10 text-sm bg-neutral-50 rounded-xl border border-neutral-200 placeholder:text-neutral-400 focus:bg-white focus:outline-none focus:border-[#0B6E3B] focus:ring-2 focus:ring-[#0B6E3B]/20 transition"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3.5 top-3 text-xs text-neutral-400 hover:text-neutral-700 font-bold"
+                aria-label="Suche leeren"
+                className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg text-xs text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100 font-bold"
               >
                 ✕
               </button>
@@ -247,24 +248,25 @@ export const DigitalContactDirectory: React.FC = () => {
             <button
               type="button"
               onClick={() => setOnlyFavorites(!onlyFavorites)}
-              className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer border min-h-[42px] active:scale-95 touch-manipulation ${
+              aria-pressed={onlyFavorites}
+              className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 h-11 rounded-xl text-sm font-semibold transition-colors cursor-pointer border touch-manipulation ${
                 onlyFavorites
-                  ? 'bg-amber-50 border-amber-300 text-amber-900 shadow-xs'
-                  : 'bg-neutral-50 border-neutral-200 text-neutral-700 hover:bg-neutral-100'
+                  ? 'bg-amber-50 border-amber-300 text-amber-900'
+                  : 'bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50'
               }`}
             >
               <Star className={`w-3.5 h-3.5 ${onlyFavorites ? 'fill-amber-400 text-amber-500' : 'text-neutral-400'}`} />
-              <span>Favoriten ({favorites.length})</span>
+              <span className="whitespace-nowrap">Favoriten ({favorites.length})</span>
             </button>
 
             {/* View Mode Toggle */}
-            <div className="flex items-center bg-neutral-100 p-1 rounded-xl border border-neutral-200 shrink-0">
+            <div className="flex items-center h-11 bg-neutral-100 p-1 rounded-xl shrink-0">
               <button
                 type="button"
                 onClick={() => setViewMode('grid')}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer min-h-[34px] active:scale-95 touch-manipulation ${
+                className={`flex items-center gap-1.5 px-3 h-full rounded-lg text-sm font-semibold transition-colors cursor-pointer touch-manipulation ${
                   viewMode === 'grid'
-                    ? 'bg-white text-neutral-900 shadow-xs'
+                    ? 'bg-white text-[#0A1F14] shadow-sm'
                     : 'text-neutral-600 hover:text-neutral-900'
                 }`}
               >
@@ -274,9 +276,9 @@ export const DigitalContactDirectory: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setViewMode('table')}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer min-h-[34px] active:scale-95 touch-manipulation ${
+                className={`flex items-center gap-1.5 px-3 h-full rounded-lg text-sm font-semibold transition-colors cursor-pointer touch-manipulation ${
                   viewMode === 'table'
-                    ? 'bg-white text-neutral-900 shadow-xs'
+                    ? 'bg-white text-[#0A1F14] shadow-sm'
                     : 'text-neutral-600 hover:text-neutral-900'
                 }`}
               >
@@ -306,14 +308,14 @@ export const DigitalContactDirectory: React.FC = () => {
             )}
           </div>
 
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1.5 scrollbar-none text-xs font-mono touch-pan-x overscroll-x-contain -mx-1 px-1">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1.5 scrollbar-none text-sm tabular-nums touch-pan-x overscroll-x-contain -mx-1 px-1">
             <button
               type="button"
               onClick={() => setSelectedYear(null)}
-              className={`px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer min-h-[34px] flex items-center justify-center active:scale-95 touch-manipulation ${
+              className={`px-3.5 h-9 rounded-full font-semibold transition-colors shrink-0 cursor-pointer flex items-center justify-center touch-manipulation ${
                 selectedYear === null
-                  ? 'bg-neutral-900 text-white'
-                  : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                  ? 'bg-[#0A1F14] text-white'
+                  : 'bg-white ring-1 ring-inset ring-neutral-200 text-neutral-700 hover:ring-[#0B6E3B]/40 hover:text-[#0B6E3B]'
               }`}
             >
               Alle
@@ -325,10 +327,11 @@ export const DigitalContactDirectory: React.FC = () => {
                   key={yr}
                   type="button"
                   onClick={() => setSelectedYear(isSelected ? null : yr)}
-                  className={`px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer min-h-[34px] flex items-center justify-center active:scale-95 touch-manipulation ${
+                  aria-pressed={isSelected}
+                  className={`px-3.5 h-9 rounded-full font-semibold transition-colors shrink-0 cursor-pointer flex items-center justify-center touch-manipulation ${
                     isSelected
-                      ? 'bg-emerald-800 text-white shadow-xs scale-105'
-                      : 'bg-neutral-100 text-neutral-700 hover:bg-emerald-100 hover:text-emerald-900'
+                      ? 'bg-[#0B6E3B] text-white'
+                      : 'bg-white ring-1 ring-inset ring-neutral-200 text-neutral-700 hover:ring-[#0B6E3B]/40 hover:text-[#0B6E3B]'
                   }`}
                 >
                   {yr}
@@ -347,16 +350,16 @@ export const DigitalContactDirectory: React.FC = () => {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`relative px-4 py-2 rounded-xl whitespace-nowrap shrink-0 transition-all cursor-pointer ${
+                className={`relative px-4 h-9 rounded-full whitespace-nowrap shrink-0 transition-colors cursor-pointer text-sm ${
                   isActive
-                    ? 'text-white font-bold'
-                    : 'text-neutral-700 hover:bg-neutral-200/70 bg-neutral-100 font-medium'
+                    ? 'text-white font-semibold'
+                    : 'text-neutral-700 hover:text-[#0B6E3B] bg-neutral-100 hover:bg-[#0B6E3B]/10 font-medium'
                 }`}
               >
                 {isActive && (
                   <motion.div
                     layoutId="activeCategoryHighlightMillion"
-                    className="absolute inset-0 bg-emerald-800 rounded-xl shadow-sm"
+                    className="absolute inset-0 bg-[#0B6E3B] rounded-full"
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
                   />
                 )}
@@ -365,7 +368,7 @@ export const DigitalContactDirectory: React.FC = () => {
             );
           })}
 
-          <div className="ml-auto text-xs text-neutral-500 font-bold pl-2 whitespace-nowrap hidden sm:block font-mono">
+          <div className="ml-auto text-xs text-neutral-500 font-bold pl-2 whitespace-nowrap hidden sm:block tabular-nums">
             {filteredTeams.length} {filteredTeams.length === 1 ? 'TEAM' : 'TEAMS'}
           </div>
         </div>
@@ -477,7 +480,7 @@ export const DigitalContactDirectory: React.FC = () => {
                       </td>
 
                       <td className="py-4 px-4 whitespace-nowrap">
-                        <span className="font-mono font-bold text-neutral-900 bg-neutral-100 px-2 py-1 rounded-md border border-neutral-200">
+                        <span className="tabular-nums font-semibold text-neutral-900 bg-neutral-100 px-2 py-1 rounded-md border border-neutral-200">
                           {team.birthYears}
                         </span>
                       </td>
@@ -498,7 +501,7 @@ export const DigitalContactDirectory: React.FC = () => {
                                 <span className="text-[10px] text-neutral-400">({coach.role})</span>
                               )}
                               {coach.phone && (
-                                <div className="flex items-center gap-1 font-mono text-emerald-800 font-bold text-xs">
+                                <div className="flex items-center gap-1 tabular-nums text-emerald-800 font-semibold text-xs">
                                   <span>·</span>
                                   <a
                                     href={`tel:${coach.phone.replace(/[\s-]/g, '')}`}
@@ -551,18 +554,18 @@ export const DigitalContactDirectory: React.FC = () => {
           </h2>
 
           <p className="text-neutral-300 text-xs sm:text-sm leading-relaxed max-w-xl mx-auto">
-            Ruf einfach direkt den Trainer deines Jahrgangs an oder kopiere dir unsere offizielle E-Mail-Adresse. Wir freuen uns über jedes neue Talent an der Kampfbahn Katzenbusch!
+            Ruf einfach direkt den Trainer deines Jahrgangs an oder schreib uns eine E-Mail. Wir freuen uns über jedes neue Talent an der Kampfbahn Katzenbusch!
           </p>
 
-          <div className="pt-3 flex flex-wrap items-center justify-center gap-4 text-xs font-bold">
-            {/* Copy-only Email */}
+          <div className="pt-3 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold">
+            {/* E-Mail: öffnet Mailprogramm */}
             <CopyableEmail email="jugend@djkspvggherten.de" variant="dark" />
 
             <a
               href="http://www.djkspvggherten.de/jugendabteilung"
               target="_blank"
               rel="noreferrer noopener"
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white transition-all shadow-sm border border-neutral-700"
+              className="inline-flex items-center gap-2 px-3.5 min-h-[40px] rounded-xl bg-white/5 hover:bg-white/10 text-white transition-colors border border-white/15"
             >
               <Globe className="w-4 h-4 text-emerald-400" />
               <span>djkspvggherten.de/jugendabteilung</span>
@@ -572,9 +575,9 @@ export const DigitalContactDirectory: React.FC = () => {
               href="https://instagram.com/djkjugend"
               target="_blank"
               rel="noreferrer noopener"
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-red-950/80 hover:bg-red-900 border border-red-800/80 text-white transition-all shadow-sm"
+              className="inline-flex items-center gap-2 px-3.5 min-h-[40px] rounded-xl bg-[#C8102E] hover:bg-[#a50d26] text-white transition-colors"
             >
-              <Instagram className="w-4 h-4 text-red-400" />
+              <Instagram className="w-4 h-4" />
               <span>@djkjugend</span>
             </a>
           </div>

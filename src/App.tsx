@@ -62,7 +62,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* Location & Copyable Email (No mailto) */}
+          {/* Location & Copyable Email  */}
           <div className="flex items-center gap-3 sm:gap-4 text-xs text-neutral-600">
             <div className="hidden md:flex items-center gap-1.5">
               <MapPin className="w-3.5 h-3.5 text-red-600 shrink-0" />
@@ -70,7 +70,7 @@ export default function App() {
             </div>
             <span className="hidden md:inline text-neutral-300">·</span>
             
-            {/* Copy-only Email */}
+            {/* E-Mail: öffnet Mailprogramm */}
             <CopyableEmail email="jugend@djkspvggherten.de" variant="light" />
           </div>
 
@@ -104,7 +104,7 @@ export default function App() {
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-4 text-neutral-300">
-              {/* Copy-only Email in Footer */}
+              {/* E-Mail im Footer */}
               <CopyableEmail email="jugend@djkspvggherten.de" variant="dark" />
 
               <a

@@ -2,17 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { YouthTeamDetail } from '../data/youthTeams';
 import { ClubStripe } from './ClubStripe';
-import { 
-  Clock, 
-  Calendar, 
-  Phone, 
-  Copy, 
-  Check, 
-  Star, 
-  MapPin, 
-  ArrowRight,
-  Shield
-} from 'lucide-react';
+import { Clock, Calendar, Phone, Copy, Check, Star, MapPin } from 'lucide-react';
 
 interface TeamCardProps {
   team: YouthTeamDetail;
@@ -23,7 +13,6 @@ interface TeamCardProps {
   copiedPhone: string | null;
 }
 
-// Generate coach initials
 function getInitials(name: string): string {
   const parts = name.trim().split(/[\s,]+/);
   if (parts.length >= 2) {
@@ -40,171 +29,151 @@ export const TeamCard: React.FC<TeamCardProps> = ({
   onCopyPhone,
   copiedPhone
 }) => {
+  const coachesWithPhone = team.coaches.filter((c) => c.phone);
+  const coachesWithoutPhone = team.coaches.filter((c) => !c.phone);
+
   return (
-    <motion.div
+    <motion.article
       layout
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
-      exit={{ opacity: 0, scale: 0.96 }}
+      exit={{ opacity: 0, scale: 0.97 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1], delay: (index % 3) * 0.05 }}
-      whileHover={{ y: -4, transition: { duration: 0.15 } }}
-      className={`relative bg-white rounded-2xl border transition-all duration-200 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-xl ${
-        isFavorite
-          ? 'border-[#0B6E3B] ring-2 ring-[#0B6E3B]/20'
-          : 'border-neutral-200/90 hover:border-[#0B6E3B]/70'
+      className={`group/card relative bg-white rounded-2xl flex flex-col overflow-hidden transition-shadow duration-200 shadow-[0_1px_2px_rgba(10,31,20,0.06),0_4px_16px_-6px_rgba(10,31,20,0.12)] hover:shadow-[0_2px_4px_rgba(10,31,20,0.06),0_16px_32px_-12px_rgba(10,31,20,0.28)] ${
+        isFavorite ? 'ring-2 ring-amber-400' : 'ring-1 ring-neutral-200'
       }`}
     >
-      {/* Brand Stripe: Rot – Grün – Weiß */}
-      <ClubStripe height="h-1.5" />
-
-      {/* Card Header */}
-      <div className="p-5 pb-4 bg-gradient-to-b from-neutral-50/80 to-white border-b border-neutral-100">
-        <div className="flex items-start justify-between gap-3 mb-2">
-          
-          {/* Big Age Badge: e.g. "U11 / E-JUGEND" */}
-          <div className="flex items-center gap-2">
-            <span className="font-display text-base tracking-wider px-3 py-1 rounded-lg bg-[#0B6E3B] text-white font-bold shadow-xs">
-              {team.ageGroupCode} / {team.category.toUpperCase()}
+      {/* Kopf: Vereinsgrün */}
+      <header className="relative bg-[#0B6E3B] text-white px-5 pt-4 pb-5 overflow-hidden">
+        {/* dezente Rasenstreifen */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-[0.07] bg-[repeating-linear-gradient(90deg,#fff_0,#fff_28px,transparent_28px,transparent_56px)]"
+        />
+        <div className="relative flex items-start justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-[11px] font-bold uppercase tracking-[0.08em] bg-white/15 px-2 py-1 rounded-md">
+              {team.ageGroupCode}
             </span>
-            <span className="text-xs font-bold text-neutral-600 bg-neutral-100 px-2.5 py-1 rounded-md border border-neutral-200 font-mono tabular-nums">
+            <span className="text-[11px] font-semibold tabular-nums bg-[#06190f]/35 px-2 py-1 rounded-md">
               Jg. {team.birthYears}
             </span>
           </div>
 
-          {/* Favorite Star Button (min 44px touch) */}
           <button
             type="button"
             onClick={(e) => onToggleFavorite(team.id, e)}
-            className={`min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl transition-colors cursor-pointer touch-manipulation ${
-              isFavorite
-                ? 'text-amber-500 bg-amber-50'
-                : 'text-neutral-400 hover:text-amber-500 hover:bg-neutral-100'
+            className={`-mr-2 -mt-1 h-10 w-10 shrink-0 flex items-center justify-center rounded-full transition-colors cursor-pointer touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+              isFavorite ? 'text-amber-300 bg-white/15' : 'text-white/70 hover:text-white hover:bg-white/10'
             }`}
-            title={isFavorite ? 'Aus Favoriten entfernen' : 'Team anpinnen'}
-            aria-label={isFavorite ? 'Aus Favoriten entfernen' : 'Team anpinnen'}
+            title={isFavorite ? 'Aus Favoriten entfernen' : 'Team merken'}
+            aria-label={isFavorite ? 'Aus Favoriten entfernen' : 'Team merken'}
+            aria-pressed={isFavorite}
           >
-            <Star className={`w-5 h-5 ${isFavorite ? 'fill-amber-400' : ''}`} />
+            <Star className={`w-5 h-5 ${isFavorite ? 'fill-amber-300' : ''}`} />
           </button>
         </div>
 
-        {/* Team Title */}
-        <h3 className="text-2xl font-black font-display tracking-wide text-[#0A1F14] leading-tight">
+        <h3 className="relative mt-3 text-[2rem] leading-[0.95] font-display tracking-wide text-balance">
           {team.name}
         </h3>
-
         {team.notes && (
-          <p className="text-xs text-neutral-500 mt-1 italic">
-            {team.notes}
-          </p>
+          <p className="relative mt-1.5 text-xs text-white/75 leading-snug">{team.notes}</p>
         )}
-      </div>
+      </header>
+      <ClubStripe height="h-1" />
 
-      {/* Card Body */}
-      <div className="p-5 space-y-4 flex-1">
-        
-        {/* Training Schedule with Clock Icon */}
-        <div className="bg-[#0B6E3B]/5 rounded-xl p-3.5 border border-[#0B6E3B]/15 space-y-1.5">
-          <div className="flex items-center justify-between text-xs text-neutral-700">
-            <div className="flex items-center gap-1.5 font-bold text-[#0A1F14]">
-              <Calendar className="w-4 h-4 text-[#0B6E3B] shrink-0" />
-              <span>Trainingstage:</span>
-            </div>
-            <span className="font-extrabold text-[#0B6E3B] bg-[#0B6E3B]/10 px-2.5 py-0.5 rounded text-xs font-mono">
-              {team.trainingDays}
-            </span>
-          </div>
-
-          {team.trainingTime && (
-            <div className="flex items-center gap-2 text-xs text-neutral-700 pl-5 pt-0.5">
-              <Clock className="w-3.5 h-3.5 text-[#0B6E3B] shrink-0" />
-              <span className="font-semibold text-[#0A1F14]">{team.trainingTime}</span>
-            </div>
-          )}
-
-          <div className="flex items-center gap-1.5 text-[11px] text-neutral-500 pl-5">
-            <MapPin className="w-3 h-3 text-[#C8102E] shrink-0" />
-            <span>Kampfbahn Katzenbusch (Kunstrasen)</span>
-          </div>
+      {/* Training */}
+      <dl className="grid grid-cols-2 border-b border-neutral-100">
+        <div className="px-5 py-3.5 border-r border-neutral-100">
+          <dt className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.1em] text-neutral-500">
+            <Calendar className="w-3.5 h-3.5 text-[#0B6E3B]" />
+            Training
+          </dt>
+          <dd className="mt-1 text-sm font-bold text-[#0A1F14]">{team.trainingDays}</dd>
         </div>
+        <div className="px-5 py-3.5">
+          <dt className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.1em] text-neutral-500">
+            <Clock className="w-3.5 h-3.5 text-[#0B6E3B]" />
+            Uhrzeit
+          </dt>
+          <dd className="mt-1 text-sm font-bold text-[#0A1F14] tabular-nums">
+            {team.trainingTime ? team.trainingTime.replace(' Uhr', '') : '–'}
+          </dd>
+        </div>
+      </dl>
 
-        {/* Coaches List with Avatar Initials & 44px Contact Action Buttons */}
-        <div className="space-y-2.5 pt-1">
-          <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-neutral-600">
-            <span>Trainerteam ({team.coaches.length})</span>
-            <span className="text-[10px] text-neutral-400 font-normal">Direktkontakt</span>
-          </div>
+      {/* Trainerteam */}
+      <div className="flex-1 flex flex-col px-5 pt-4 pb-5 gap-3">
+        <h4 className="text-[10px] font-bold uppercase tracking-[0.1em] text-neutral-500">
+          Trainerteam
+        </h4>
 
-          <div className="space-y-2">
-            {team.coaches.map((coach, cIdx) => (
-              <div
-                key={cIdx}
-                className="p-3 rounded-xl bg-neutral-50 hover:bg-neutral-100/90 border border-neutral-200 transition-colors flex flex-wrap items-center justify-between gap-x-3 gap-y-2 text-xs"
-              >
-                {/* Coach Name & Avatar with Initials */}
-                <div className="flex items-center gap-2.5 min-w-[7rem] flex-1">
-                  <div 
-                    className="w-8 h-8 rounded-full bg-[#0B6E3B]/15 text-[#0B6E3B] border border-[#0B6E3B]/30 flex items-center justify-center font-black text-xs shrink-0 select-none"
+        <ul className="flex flex-col gap-2.5">
+          {coachesWithPhone.map((coach, cIdx) => {
+            const isCopied = copiedPhone === coach.phone;
+            return (
+              <li key={cIdx} className="flex flex-col gap-2">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <span
                     aria-hidden="true"
+                    className="w-8 h-8 rounded-full bg-[#0B6E3B]/10 text-[#0B6E3B] flex items-center justify-center font-bold text-[11px] shrink-0 select-none"
                   >
                     {getInitials(coach.name)}
-                  </div>
-                  <div className="min-w-0">
-                    <div className="font-bold text-[#0A1F14] leading-snug">
-                      {coach.name}
-                    </div>
-                    {coach.role && (
-                      <div className="text-[10px] text-[#0B6E3B] font-semibold">
-                        {coach.role}
-                      </div>
-                    )}
+                  </span>
+                  <div className="min-w-0 leading-tight">
+                    <div className="text-sm font-semibold text-[#0A1F14] truncate">{coach.name}</div>
+                    {coach.role && <div className="text-[11px] text-neutral-500">{coach.role}</div>}
                   </div>
                 </div>
 
-                {/* Contact Action Buttons (min 44px touch targets) */}
-                {coach.phone ? (
-                  <div className="flex items-center gap-1.5 shrink-0">
-                    
-                    {/* Anrufen Button (min 44px height) */}
-                    <a
-                      href={`tel:${coach.phone.replace(/[\s\-\/]/g, '')}`}
-                      className="min-h-[44px] px-3 bg-[#0B6E3B] hover:bg-[#09572e] active:bg-[#074123] text-white font-mono text-xs font-bold rounded-xl transition-all shadow-xs flex items-center gap-1.5 active:scale-95 touch-manipulation"
-                      title={`${coach.name} anrufen (${coach.phone})`}
-                      aria-label={`${coach.name} anrufen (${coach.phone})`}
-                    >
-                      <Phone className="w-3.5 h-3.5" />
-                      <span className="tabular-nums">{coach.phone}</span>
-                    </a>
+                <div className="flex items-stretch gap-1.5">
+                  <a
+                    href={`tel:${coach.phone!.replace(/[\s\-\/]/g, '')}`}
+                    className="flex-1 min-h-[44px] px-3.5 rounded-xl bg-[#0B6E3B] hover:bg-[#09572e] active:bg-[#074123] text-white flex items-center justify-between gap-2 transition-colors touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B6E3B] focus-visible:ring-offset-2"
+                    title={`${coach.name} anrufen`}
+                    aria-label={`${coach.name} anrufen: ${coach.phone}`}
+                  >
+                    <span className="flex items-center gap-2 text-sm font-semibold">
+                      <Phone className="w-4 h-4" />
+                      Anrufen
+                    </span>
+                    <span className="text-[13px] font-medium tabular-nums text-white/85">{coach.phone}</span>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={(e) => onCopyPhone(coach.name, coach.phone!, e)}
+                    className={`min-h-[44px] w-11 shrink-0 flex items-center justify-center rounded-xl border transition-colors cursor-pointer touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B6E3B] ${
+                      isCopied
+                        ? 'bg-[#0B6E3B]/10 border-[#0B6E3B]/30 text-[#0B6E3B]'
+                        : 'border-neutral-200 text-neutral-500 hover:text-[#0A1F14] hover:bg-neutral-50'
+                    }`}
+                    title="Nummer kopieren"
+                    aria-label={`Nummer von ${coach.name} kopieren`}
+                  >
+                    {isCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
 
-                    {/* Copy Button (min 44px touch target) */}
-                    <button
-                      type="button"
-                      onClick={(e) => onCopyPhone(coach.name, coach.phone!, e)}
-                      className="min-h-[44px] min-w-[44px] flex items-center justify-center text-neutral-500 hover:text-[#0A1F14] hover:bg-neutral-200 active:bg-neutral-300 rounded-xl transition-colors cursor-pointer touch-manipulation border border-neutral-200"
-                      title="Telefonnummer in Zwischenablage kopieren"
-                      aria-label="Telefonnummer kopieren"
-                    >
-                      {copiedPhone === coach.phone ? (
-                        <Check className="w-4 h-4 text-[#0B6E3B]" />
-                      ) : (
-                        <Copy className="w-4 h-4" />
-                      )}
-                    </button>
+        {coachesWithoutPhone.length > 0 && (
+          <p className="text-xs text-neutral-500 leading-relaxed">
+            <span className="font-semibold text-neutral-700">Außerdem im Team: </span>
+            {coachesWithoutPhone
+              .map((c) => (c.role ? `${c.name} (${c.role})` : c.name))
+              .join(', ')}
+          </p>
+        )}
 
-                  </div>
-                ) : (
-                  <span className="text-neutral-400 text-xs italic self-start sm:self-auto py-2">
-                    Trainerteam
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
+        <div className="mt-auto pt-2 flex items-center gap-1.5 text-[11px] text-neutral-500">
+          <MapPin className="w-3.5 h-3.5 text-[#C8102E] shrink-0" />
+          Kampfbahn Katzenbusch · Kunstrasen
         </div>
-
       </div>
-
-
-    </motion.div>
+    </motion.article>
   );
 };

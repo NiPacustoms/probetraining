@@ -218,7 +218,7 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     coaches: [
       { name: 'Jessy Dubielzek', phone: '0176-46 082 208', role: 'Cheftrainerin' },
       { name: 'Nadine', role: 'Trainerin' },
-      { name: 'Chiara, Maren', role: 'Co-Trainerinnen' }
+      { name: 'Maren', role: 'Co-Trainerin' }
     ],
     notes: 'Spiel & Spaß im Mädchen-Team am Katzenbusch'
   },

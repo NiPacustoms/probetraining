@@ -216,7 +216,7 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     fieldFormat: 'Kleinfeld 7 vs. 7',
     ballSize: 'Größe 4 (350g)',
     coaches: [
-      { name: 'Jessy Dubielzek', phone: '0176-46 082 208', role: 'Cheftrainerin' },
+      { name: 'Jessy', phone: '0176-46 082 208', role: 'Cheftrainerin' },
       { name: 'Nadine', role: 'Trainerin' },
       { name: 'Maren', role: 'Co-Trainerin' }
     ],

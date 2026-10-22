@@ -58,6 +58,7 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     maxYear: 2024,
     sessions: [
       { day: 'Mi', start: '16:00', end: '17:00', place: 'feigehalle' },
+      { day: 'Do', start: '16:00', end: '17:00', place: 'augustahalle' },
       { day: 'Fr', start: '16:00', end: '17:00', place: 'feigehalle' }
     ],
     fallback: [
@@ -157,9 +158,9 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     name: 'U9-Mädchen',
     shortName: 'U9-Mädchen',
     ageGroupCode: 'U9 Juniorinnen',
-    birthYears: '2018 – 2020',
+    birthYears: '2018 / 2019',
     minYear: 2018,
-    maxYear: 2020,
+    maxYear: 2019,
     sessions: [
       { day: 'Di', start: '17:00', end: '18:15', place: 'kunstrasen' },
       { day: 'Mi', start: '18:00', end: '19:00', place: 'feigehalle' }
@@ -277,8 +278,8 @@ export const OFFICIAL_YOUTH_TEAMS: YouthTeamDetail[] = [
     name: 'U11-Mädchen / Juniorinnen',
     shortName: 'U11-Mädchen',
     ageGroupCode: 'U11 Juniorinnen',
-    birthYears: '2015 – 2017',
-    minYear: 2015,
+    birthYears: '2016 / 2017',
+    minYear: 2016,
     maxYear: 2017,
     sessions: [
       { day: 'Mi', start: '18:00', end: '19:00', place: 'feigehalle' },
